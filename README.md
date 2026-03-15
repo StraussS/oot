@@ -38,6 +38,16 @@ It is designed for people who want a clean, local-first system to track digital 
 - **Settings** — categories, tags, export
 - **Sidebar create form** — quick entry for assets and wishes
 
+## Screenshots
+
+### Desktop
+
+![OOT desktop screenshot](assets/screenshots/oot-desktop.png)
+
+### Mobile
+
+<img src="assets/screenshots/oot-mobile.png" alt="OOT mobile screenshot" width="320" />
+
 ## Tech stack
 
 - Python 3.13

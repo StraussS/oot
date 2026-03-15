@@ -545,6 +545,92 @@ def inject_css():
             overflow:hidden;
             border:1px solid #e7eaf7;
         }
+        @media (max-width: 900px) {
+            .block-container {
+                padding: .8rem .8rem 2rem .8rem;
+            }
+            [data-testid="stSidebar"] {
+                border-right:none;
+            }
+            [data-testid="stSidebar"] [data-testid="stForm"] {
+                border-radius:16px;
+                padding:.85rem .8rem .35rem .8rem;
+                box-shadow:0 8px 18px rgba(79,70,229,.06);
+            }
+            .hero, .card, .item-card, .mini {
+                border-radius:18px;
+            }
+            .hero {
+                padding:1.1rem 1rem;
+            }
+            .small-kpi {
+                font-size:1.45rem;
+            }
+            .thumb-wrap {
+                width:62px;
+                height:62px;
+                border-radius:16px;
+            }
+            [data-testid="stHorizontalBlock"] {
+                gap:.7rem;
+            }
+            [data-testid="stHorizontalBlock"] > div {
+                min-width:0;
+            }
+            [data-testid="stSegmentedControl"] {
+                overflow-x:auto;
+                white-space:nowrap;
+            }
+            [data-testid="stSegmentedControl"] button {
+                min-height:40px;
+                padding:.35rem .8rem !important;
+            }
+            .stTextInput input, .stNumberInput input, .stTextArea textarea,
+            .stSelectbox [data-baseweb="select"] > div,
+            .stMultiSelect [data-baseweb="select"] > div {
+                min-height:42px;
+            }
+        }
+        @media (max-width: 640px) {
+            .block-container {
+                padding: .65rem .65rem 1.6rem .65rem;
+            }
+            .hero {
+                padding:1rem .95rem;
+                border-radius:16px;
+            }
+            .card, .item-card, .mini {
+                border-radius:16px;
+                padding:.85rem;
+            }
+            .muted {
+                font-size:.88rem;
+            }
+            .small-kpi {
+                font-size:1.32rem;
+            }
+            .section-title {
+                font-size:1rem;
+            }
+            .thumb-wrap {
+                width:56px;
+                height:56px;
+                border-radius:14px;
+            }
+            [data-testid="stHorizontalBlock"] {
+                flex-direction:column;
+            }
+            [data-testid="stHorizontalBlock"] > div {
+                width:100% !important;
+                flex:1 1 100% !important;
+            }
+            [data-testid="stFileUploader"] section {
+                padding:.55rem;
+            }
+            .stButton>button, .stDownloadButton>button {
+                min-height:42px;
+            }
+        }
         </style>
         """,
         unsafe_allow_html=True,
