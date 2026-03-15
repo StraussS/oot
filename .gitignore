@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+.venv/
+uploads/
+*.db
+.streamlit/

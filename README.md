@@ -1,25 +1,89 @@
 # OOT
 
-Order of Things（OOT），一个基于 Streamlit 的个人物品与资产管理应用。
+> **Order of Things** — 一个基于 Streamlit 的个人物品、资产与心愿管理应用。
 
-核心结构：
-- 首页：资产总览 / 状态筛选 / 资产列表
-- 心愿：心愿总值 / 心愿列表
-- 统计：资产与状态分析
-- 设置：分类管理 / 标签管理 / 数据导出
-- 新增：统一的资产 / 心愿录入表单
+OOT 用来记录“我拥有什么、花了多少钱、现在是什么状态、凭证在哪里”。
+它适合拿来管理数码产品、家居设备、收藏、订阅资产，或者任何你想系统化整理的物品。
 
-## 本地运行
+## 特性
+
+- **资产 / 心愿双模式**：既能管理已拥有物品，也能轻量记录想买的东西
+- **资产总览**：查看总资产、日均成本、数量与状态分布
+- **分类 / 标签**：支持多维整理与筛选
+- **状态管理**：服役中 / 已退役 / 已卖出
+- **图片与发票**：支持本地上传、预览、下载与替换清理
+- **统计分析**：按分类、状态等维度查看资产情况
+- **本地优先**：默认使用 SQLite，本地运行即可使用
+- **Docker 支持**：可一键容器化部署
+
+## 界面结构
+
+- **首页**：资产总览、搜索、筛选、资产列表
+- **心愿**：心愿总值、愿望列表
+- **统计**：资产与状态分析
+- **设置**：分类管理、标签管理、数据导出
+- **侧栏新增**：统一的资产 / 心愿录入入口
+
+## 技术栈
+
+- **Python 3.13**
+- **Streamlit**
+- **SQLite**
+- **Docker / Docker Compose**
+
+## 目录结构
+
+```text
+oot/
+├── app.py
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+├── run.sh
+├── update.sh
+├── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── docs/
+│   ├── DEPLOYMENT.md
+│   └── DEVELOPMENT.md
+└── uploads/
+```
+
+## 快速开始
+
+### 方式一：本地运行
 
 ```bash
 cd oot
-python3 -m pip install -r requirements.txt
-streamlit run app.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+streamlit run app.py --server.headless true --browser.gatherUsageStats false --server.address 0.0.0.0 --server.port 8502
 ```
 
-## Docker 运行
+访问：<http://localhost:8502>
 
-### 方式 1：直接构建运行
+### 方式二：Docker Compose
+
+```bash
+cd oot
+docker compose up -d --build
+```
+
+访问：<http://localhost:8502>
+
+### 方式三：一键脚本
+
+```bash
+cd oot
+./run.sh
+```
+
+## Docker 运行说明
+
+### 直接运行
 
 ```bash
 cd oot
@@ -33,42 +97,84 @@ docker run -d \
   oot
 ```
 
-### 方式 2：docker compose
+### 数据持久化
 
-```bash
-cd oot
-docker compose up -d --build
-```
+建议持久化以下路径：
 
-## 功能
-
-- SQLite 本地存储
-- 资产 / 心愿 双类型
-- 分类 / 标签
-- 状态管理：服役中 / 已退役 / 已卖出
-- 图片上传
-- 发票上传 / 下载 / 部分预览
-- 到期日期 / 到期提醒字段
-- 是否计入总资产 / 日均成本
-- 统计页、编辑页、CSV 导出
-
-## 数据持久化
-
-Docker 方式下建议持久化这两个路径：
 - `./uploads` → `/app/uploads`
 - `./oot.db` → `/app/oot.db`
 
+这样在重建容器后：
+- 资产数据不会丢失
+- 图片与发票不会丢失
 
-## 一键脚本
+## 常用脚本
 
-### 启动
+### 启动项目
+
 ```bash
-cd /home/porishi/.openclaw/workspace/oot
 ./run.sh
 ```
 
-### 更新
+### 更新并重建
+
 ```bash
-cd /home/porishi/.openclaw/workspace/oot
 ./update.sh
 ```
+
+## 功能说明
+
+### 资产字段
+
+- 名称
+- 价格
+- 购买日期
+- 分类
+- 标签
+- 状态
+- 目标成本
+- 备注
+- 图片
+- 发票
+- 是否计入总资产
+- 是否计入日均成本
+- 到期日期 / 到期提醒
+
+### 心愿字段
+
+保持轻量，仅包含：
+
+- 名称
+- 价格
+- 图片
+- 备注
+
+## 导出能力
+
+设置页支持导出全部数据 CSV，用于：
+
+- 备份
+- 迁移
+- 二次分析
+
+## 文档
+
+- 部署说明：[`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+- 开发说明：[`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)
+- 贡献指南：[`CONTRIBUTING.md`](CONTRIBUTING.md)
+- 变更记录：[`CHANGELOG.md`](CHANGELOG.md)
+
+## 路线建议
+
+未来可以继续扩展：
+
+- 多主题切换
+- 更细的统计图表
+- 数据导入
+- 保修 / 到期提醒增强
+- 多用户或账户隔离
+- 更完整的发票预览支持
+
+## License
+
+MIT
