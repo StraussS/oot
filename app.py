@@ -296,6 +296,27 @@ def fmt_date(s):
     return s or "未填写"
 
 
+def parse_date_value(value):
+    if not value:
+        return None
+    if isinstance(value, date):
+        return value
+    try:
+        return datetime.strptime(str(value), "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
+def to_date_str(value):
+    if not value:
+        return None
+    if isinstance(value, datetime):
+        return value.date().isoformat()
+    if isinstance(value, date):
+        return value.isoformat()
+    return str(value)
+
+
 def inject_css():
     st.markdown(
         """
@@ -607,7 +628,7 @@ def render_edit_form(conn, row, categories, tags):
                     st.caption("当前图片已存在，可重新上传替换")
                 invoice_file = st.file_uploader("上传发票", type=["png", "jpg", "jpeg", "webp", "pdf"], key=f"invoice_{int(row['id'])}")
                 price = st.number_input("价格", min_value=0.0, value=float(row['price'] or 0), step=100.0)
-                purchase_date = st.text_input("购买日期", value=row['purchase_date'] or "")
+                purchase_date = st.date_input("购买日期", value=parse_date_value(row['purchase_date']), format="YYYY/MM/DD")
                 category_name = st.selectbox("类别", cat_names, index=cat_names.index(default_cat))
                 selected_tags = st.multiselect("标签", list(tag_id_map.keys()), default=default_tags)
             with c2:
@@ -616,10 +637,10 @@ def render_edit_form(conn, row, categories, tags):
                 include_total = st.checkbox("计入总资产", value=bool(row['include_in_total']))
                 include_daily = st.checkbox("计入日均", value=bool(row['include_in_daily']))
                 status = st.selectbox("状态", [STATUS_ACTIVE, STATUS_RETIRED, STATUS_SOLD], index=[STATUS_ACTIVE, STATUS_RETIRED, STATUS_SOLD].index(row['status']))
-                expiry_date = st.text_input("到期日期", value=row['expiry_date'] or "")
+                expiry_date = st.date_input("到期日期", value=parse_date_value(row['expiry_date']), format="YYYY/MM/DD")
                 expiry_reminder = st.checkbox("开启到期提醒", value=bool(row['expiry_reminder']))
                 sold_price = st.number_input("卖出价格", min_value=0.0, value=float(row['sold_price'] or 0), step=100.0)
-                sold_date = st.text_input("卖出日期", value=row['sold_date'] or "")
+                sold_date = st.date_input("卖出日期", value=parse_date_value(row['sold_date']), format="YYYY/MM/DD")
             save = st.form_submit_button("保存修改")
         if save:
             category_id = None
@@ -631,7 +652,7 @@ def render_edit_form(conn, row, categories, tags):
                 'item_type': item_type,
                 'name': name,
                 'price': price,
-                'purchase_date': purchase_date or None,
+                'purchase_date': to_date_str(purchase_date),
                 'category_id': category_id,
                 'target_cost': target_cost,
                 'note': note,
@@ -640,10 +661,10 @@ def render_edit_form(conn, row, categories, tags):
                 'include_in_total': include_total,
                 'include_in_daily': include_daily,
                 'status': status,
-                'expiry_date': expiry_date or None,
+                'expiry_date': to_date_str(expiry_date),
                 'expiry_reminder': expiry_reminder,
                 'sold_price': sold_price,
-                'sold_date': sold_date or None,
+                'sold_date': to_date_str(sold_date),
             }, [tag_id_map[t] for t in selected_tags])
             st.success("已更新")
             st.rerun()
@@ -850,17 +871,17 @@ def create_form(conn):
 
         if item_type == ITEM_TYPE_ASSET:
             invoice_file = st.file_uploader("上传发票", type=["png", "jpg", "jpeg", "webp", "pdf"], key="create_invoice")
-            purchase_date = st.text_input("购买日期", placeholder="YYYY-MM-DD")
+            purchase_date = st.date_input("购买日期", value=None, format="YYYY/MM/DD")
             category_name = st.selectbox("类别", ["未分类"] + categories["name"].tolist())
             selected_tags = st.multiselect("标签", tags["name"].tolist())
             target_cost = st.number_input("目标成本", min_value=0.0, step=100.0)
             include_total = st.checkbox("计入总资产", value=True)
             include_daily = st.checkbox("计入日均", value=True)
             status = st.selectbox("状态", [STATUS_ACTIVE, STATUS_RETIRED, STATUS_SOLD])
-            expiry_date = st.text_input("到期日期", placeholder="YYYY-MM-DD")
+            expiry_date = st.date_input("到期日期", value=None, format="YYYY/MM/DD")
             expiry_reminder = st.checkbox("开启到期提醒")
             sold_price = st.number_input("卖出价格", min_value=0.0, step=100.0)
-            sold_date = st.text_input("卖出日期", placeholder="YYYY-MM-DD")
+            sold_date = st.date_input("卖出日期", value=None, format="YYYY/MM/DD")
         else:
             invoice_file = None
             purchase_date = None
