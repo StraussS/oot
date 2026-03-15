@@ -1,0 +1,10 @@
+services:
+  oot:
+    build: .
+    container_name: oot-app
+    ports:
+      - "8502:8502"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./oot.db:/app/oot.db
+    restart: unless-stopped
