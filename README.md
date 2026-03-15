@@ -57,3 +57,18 @@ docker compose up -d --build
 Docker 方式下建议持久化这两个路径：
 - `./uploads` → `/app/uploads`
 - `./oot.db` → `/app/oot.db`
+
+
+## 一键脚本
+
+### 启动
+```bash
+cd /home/porishi/.openclaw/workspace/oot
+./run.sh
+```
+
+### 更新
+```bash
+cd /home/porishi/.openclaw/workspace/oot
+./update.sh
+```
