@@ -14,6 +14,7 @@ DB_PATH = Path(os.environ.get("OOT_DB_PATH", str(DATA_DIR / "oot.db"))).expandus
 UPLOAD_DIR = Path(os.environ.get("OOT_UPLOAD_DIR", str(DATA_DIR / "uploads"))).expanduser()
 IMAGE_DIR = UPLOAD_DIR / "images"
 INVOICE_DIR = UPLOAD_DIR / "invoices"
+APP_PASSWORD = os.environ.get("OOT_PASSWORD", "").strip()
 DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 for d in [UPLOAD_DIR, IMAGE_DIR, INVOICE_DIR]:
     d.mkdir(parents=True, exist_ok=True)
@@ -929,9 +930,40 @@ def create_form(conn):
         st.rerun()
 
 
+def require_password():
+    if not APP_PASSWORD:
+        return True
+
+    st.session_state.setdefault("oot_authed", False)
+    if st.session_state["oot_authed"]:
+        return True
+
+    st.markdown("""
+    <div class='card' style='max-width:440px;margin:8vh auto 0 auto;text-align:center'>
+      <div style='font-size:1.6rem;font-weight:800;color:#4f46e5;margin-bottom:.45rem'>OOT</div>
+      <div class='muted' style='margin-bottom:1rem'>请输入访问密码</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    with st.form("oot_password_gate"):
+        pwd = st.text_input("访问密码", type="password", placeholder="输入密码后进入")
+        submitted = st.form_submit_button("进入 OOT", use_container_width=True)
+
+    if submitted:
+        if pwd == APP_PASSWORD:
+            st.session_state["oot_authed"] = True
+            st.rerun()
+        else:
+            st.error("密码不正确")
+    return False
+
+
+
 def main():
     st.set_page_config(page_title="OOT", page_icon="📦", layout="wide")
     inject_css()
+    if not require_password():
+        return
     conn = get_conn()
     st.session_state.setdefault("confirm_delete_category_id", None)
     st.session_state.setdefault("confirm_delete_category_name", None)

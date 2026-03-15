@@ -125,6 +125,33 @@ Inside the container, OOT now uses:
 - database: `/data/oot.db`
 - uploads: `/data/uploads`
 
+
+## Password protection
+
+OOT supports a simple password gate for the whole app.
+
+### Docker Compose
+
+Set an environment variable before starting:
+
+```bash
+export OOT_PASSWORD='your-password'
+docker compose up -d --build
+```
+
+### Docker run
+
+```bash
+docker run -d \
+  --name oot-app \
+  -p 8502:8502 \
+  -e OOT_PASSWORD='your-password' \
+  -v $(pwd)/data:/data \
+  oot
+```
+
+If `OOT_PASSWORD` is empty, password protection is disabled.
+
 ## Common commands
 
 ### Start

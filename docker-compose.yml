@@ -8,6 +8,7 @@ services:
       OOT_DATA_DIR: /data
       OOT_DB_PATH: /data/oot.db
       OOT_UPLOAD_DIR: /data/uploads
+      OOT_PASSWORD: ${OOT_PASSWORD:-}
     volumes:
       - ./data:/data
     restart: unless-stopped
