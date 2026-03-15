@@ -106,8 +106,7 @@ docker build -t oot .
 docker run -d \
   --name oot-app \
   -p 8502:8502 \
-  -v $(pwd)/uploads:/app/uploads \
-  -v $(pwd)/oot.db:/app/oot.db \
+  -v $(pwd)/data:/data \
   --restart unless-stopped \
   oot
 ```
@@ -116,12 +115,15 @@ docker run -d \
 
 Mount these paths to keep your data:
 
-- `./uploads` → `/app/uploads`
-- `./oot.db` → `/app/oot.db`
+- `./data` → `/data`
 
 That preserves:
 - uploaded images and invoices
 - SQLite data between container rebuilds
+
+Inside the container, OOT now uses:
+- database: `/data/oot.db`
+- uploads: `/data/uploads`
 
 ## Common commands
 

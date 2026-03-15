@@ -1,4 +1,5 @@
 import base64
+import os
 import sqlite3
 import uuid
 from datetime import date, datetime
@@ -8,10 +9,12 @@ import pandas as pd
 import streamlit as st
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "oot.db"
-UPLOAD_DIR = BASE_DIR / "uploads"
+DATA_DIR = Path(os.environ.get("OOT_DATA_DIR", BASE_DIR)).expanduser()
+DB_PATH = Path(os.environ.get("OOT_DB_PATH", str(DATA_DIR / "oot.db"))).expanduser()
+UPLOAD_DIR = Path(os.environ.get("OOT_UPLOAD_DIR", str(DATA_DIR / "uploads"))).expanduser()
 IMAGE_DIR = UPLOAD_DIR / "images"
 INVOICE_DIR = UPLOAD_DIR / "invoices"
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 for d in [UPLOAD_DIR, IMAGE_DIR, INVOICE_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 

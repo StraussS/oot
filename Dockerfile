@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py ./
 
-RUN mkdir -p /app/uploads/images /app/uploads/invoices
+RUN mkdir -p /app/uploads/images /app/uploads/invoices /data/uploads/images /data/uploads/invoices
 
 EXPOSE 8502
 

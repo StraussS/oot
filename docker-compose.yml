@@ -4,7 +4,10 @@ services:
     container_name: oot-app
     ports:
       - "8502:8502"
+    environment:
+      OOT_DATA_DIR: /data
+      OOT_DB_PATH: /data/oot.db
+      OOT_UPLOAD_DIR: /data/uploads
     volumes:
-      - ./uploads:/app/uploads
-      - ./oot.db:/app/oot.db
+      - ./data:/data
     restart: unless-stopped
