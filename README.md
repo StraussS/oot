@@ -1,5 +1,7 @@
 # OOT
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE) [![Python 3.13](https://img.shields.io/badge/Python-3.13-blue.svg)](#技术栈) [![Docker Ready](https://img.shields.io/badge/Docker-ready-2496ED.svg)](#docker-运行说明) [![CI](https://img.shields.io/badge/CI-GitHub_Actions-2088FF.svg)](.github/workflows/ci.yml)
+
 > **Order of Things** — 一个基于 Streamlit 的个人物品、资产与心愿管理应用。
 
 OOT 用来记录“我拥有什么、花了多少钱、现在是什么状态、凭证在哪里”。
