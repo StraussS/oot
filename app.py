@@ -916,7 +916,7 @@ def main():
     st.session_state.setdefault("confirm_delete_tag_name", None)
     st.session_state.setdefault("confirm_delete_tag_count", None)
     create_form(conn)
-    st.markdown("""<div style='padding-top:1.3rem;margin-bottom:.85rem'><div style='font-size:2.3rem;font-weight:900;letter-spacing:-.02em;line-height:1.28;color:#4f46e5;margin:0 0 .22rem 0'>OOT</div><div class='muted'>Order of Things · 管理你的心愿、资产与物品生命周期。</div></div>""", unsafe_allow_html=True)
+    st.markdown("""<div style='padding-top:1.7rem;margin-bottom:.9rem'><div style='font-size:2.5rem;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:#4f46e5;margin:0 0 .24rem 0'>OOT</div><div class='muted'>Order of Things · 管理你的心愿、资产与物品生命周期。</div></div>""", unsafe_allow_html=True)
     page = st.segmented_control("导航", ["首页", "心愿", "统计", "设置"], default="首页")
     if page == "首页":
         page_assets(conn)
